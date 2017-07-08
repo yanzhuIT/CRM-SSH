@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<!-- set uploading file size, default is 2M=2097152 -->
+	<constant name="struts.multipart.maxSize" value="209715200"></constant> 
+
+	<package name="crm" extends="struts-default" namespace="/">
+
+		<!-- "class" name is from spring file bean.xml -->
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="login">/login.jsp</result> <!-- login fail -->
+
+			<!-- index.htm include some .jsp frame -->
+			<result name="loginSuccess">/index.htm</result>  <!-- login success -->
+		</action>
+
+
+
+
+
+		<!-- "1" stands for the first "*" -->
+		<action name="customer_*" class="customerAction" method="{1}">
+
+			<!-- here "name" is the returning string of the method -->
+			<result name="toAddPage">/jsp/customer/add.jsp</result>
+
+			<!-- add customer -->
+			<result name="add" type="redirectAction">customer_list.action</result>
+
+			<!-- show list -->
+			<result name="list">/jsp/customer/list.jsp</result>
+
+			<!-- <result name="list" type="dispatcher"> <param name="location">/jsp/customer/list.jsp</param> 
+				</result> -->
+
+			<!-- delete a customer -->
+			<result name="delete" type="redirectAction">customer_list</result>
+
+			<!-- to edit page -->
+			<result name="showCustomer">/jsp/customer/edit.jsp</result>
+
+			<!-- edit customer information -->
+			<result name="update" type="redirectAction">customer_list.action</result>
+
+			<!-- multiple pages -->
+			<result name="pagelist">/jsp/customer/listpage.jsp</result>
+
+			<!-- query by condition -->
+			<result name="queryBy">/jsp/customer/list.jsp</result>
+			
+			<!-- to multiple conditions query page -->
+			<result name="toSelectCustomerPage">/jsp/select/select.jsp</result>
+			
+			<!-- to multiple conditions query page -->
+			<result name="multipleCondition">/jsp/customer/list.jsp</result>
+			
+			<!-- show statistic result -->
+			<result name="countSource">/jsp/customer/listSource.jsp</result>
+		</action>
+
+
+
+
+		<!-- here the action name would be used in .jsp, * is defined in .jsp and 
+			same as the method in .action file which one could be used to handle with 
+			request on the page -->
+		<action name="linkman_*" class="linkManAction" method="{1}">
+			<!--go to add linkman page -->
+			<result name="toAddPage">/jsp/linkman/add.jsp</result>
+
+			<!-- add one "linkman" record -->
+			<result name="addLinkMan" type="redirectAction">linkman_list</result>
+			
+			<!-- set "input" -->
+			<!-- when error occurs, struts return "input" defaultly, so we can configurate this to check error -->
+			<!-- use struts label "<s:actionerror />" on error page -->
+			 <result name="input">/jsp/error.jsp</result> 
+			
+			<!-- show list -->
+			<result name="list">/jsp/linkman/list.jsp</result>
+			
+		    <!-- to edit page -->
+			<result name="showById">/jsp/linkman/edit.jsp</result>
+			
+			<!--  edit one linkman -->
+			<result name="updateLinkMan" type="redirectAction">linkman_list</result>
+			
+			<!-- to multiple conditions query page -->
+			<result name="toSelectPage">/jsp/select/linkman.jsp</result>
+			
+			<!-- multiple conditions to list page -->
+			<result name="multipleCondition">/jsp/linkman/list.jsp</result>
+
+		</action>
+	
+	
+	
+		
+		<action name="visit_*" class="visitAction" method="{1}">
+			<!--go to add visiting record page -->
+			<result name="toAddPage">/jsp/visit/add.jsp</result>
+
+			<!--add one visiting record -->
+			<result name="addVisit" type="redirectAction">visit_list</result>
+			
+			<!--add one visiting record -->
+			<result name="list">/jsp/visit/list.jsp</result>
+
+		</action>
+
+	</package>
+</struts>

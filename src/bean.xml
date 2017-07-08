@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- spring and hibernate -->
+	<!-- c3p0 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+		<property name="jdbcUrl" value="jdbc:mysql:///crm_ssh"></property>
+		<property name="user" value="root"></property>
+		<property name="password" value="dev20*yz#178988"></property>
+	</bean>
+
+	<!-- sessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocations" value="classpath:hibernate.cfg.xml"></property>
+	</bean>
+
+	<!-- database tx configuration -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<!-- Don't forget to add annotation at using tx place -->
+	<tx:annotation-driven transaction-manager="transactionManager" /> <!-- permit annotation -->
+
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+
+	<!-- spring for action -->
+	<bean id="userAction" class="com.github.action.UserAction" scope="prototype">
+		<property name="userService" ref="userService"></property>
+	</bean>
+
+
+	<!-- spring for service, "property ref" is implementation class" -->
+	<bean id="userService" class="com.github.service.UserService">
+		<property name="userDao" ref="userDaoImpl"></property>
+	</bean>
+
+
+	<!-- spring for dao, interface cannot work here -->
+	<bean id="userDaoImpl" class="com.github.dao.UserDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>
+
+
+
+	<!-- import customer.xml -->
+	<import resource="classpath:customer.xml" />
+
+	<!-- import linkman.xml -->
+	<import resource="classpath:linkman.xml" />
+	
+	<!-- import visit.xml -->
+	<import resource="classpath:visit.xml" />
+
+
+</beans>

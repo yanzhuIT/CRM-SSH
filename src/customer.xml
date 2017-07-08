@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- Demo: different module for different person, referred by bean.xml -->
+
+	<bean id="customerAction" class="com.github.action.CustomerAction"
+		scope="prototype">
+		<property name="customerService" ref="customerService"></property>
+	</bean>
+
+
+	<bean id="customerService" class="com.github.service.CustomerService">
+		<property name="customerDao" ref="customerDaoImpl"></property>
+	</bean>
+
+
+	<!-- "extends HibernateDaoSupport" in "CustomerDaoImpl", so I can use a 
+		easier method here -->
+
+	<bean id="customerDaoImpl" class="com.github.dao.CustomerDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+</beans>

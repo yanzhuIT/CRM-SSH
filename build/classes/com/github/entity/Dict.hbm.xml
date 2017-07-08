@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.github.entity.Dict" table="t_dict">
+		<id name="did" column="did">
+		<!-- "increment" is good for dictionary table ?-->
+			<generator class="increment"></generator>
+		</id>
+
+		<property name="dname" column="dname"></property>
+
+
+		<!-- no set Customer, no this requirement -->
+
+
+	</class>
+
+
+
+</hibernate-mapping>

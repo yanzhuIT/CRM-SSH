@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.github.entity.Customer" table="t_customer">
+		<id name="cid" column="cid">
+			<generator class="native"></generator>
+		</id>
+
+		<property name="custName" column="custName"></property>
+		<!-- <property name="custLevel" column="custLevel"></property> -->
+		<property name="custSource" column="custSource"></property>
+		<!-- static value, customer's relative, not the same as linkMans(business) -->
+		<property name="custLinkman" column="custLinkman"></property>
+
+		<!-- one-to-many configuration -->
+		<!-- inverse="true" means "one" gives up bidirectional maintenance, "one" 
+			will not set clid to "null" -->
+		<!-- inverse is for update "one", then "many" can still get updated "one" -->
+		<!-- but delete will fail, so we need to set "cascade" -->
+		<set name="linkMans" inverse="true" cascade="delete">
+			<!-- foreign key -->
+			<key column="clid"></key>
+			<one-to-many class="com.github.entity.LinkMan" />
+		</set>
+
+
+		<set name="customerVisits">
+			<!-- foreign key -->
+			<key column="cvid"></key>
+			<one-to-many class="com.github.entity.Visit" />
+		</set>
+		
+		<!-- column="custLevel" is foreign name -->
+		<many-to-one name="dictCustLevel" class="com.github.entity.Dict" column="custLevel"></many-to-one>
+
+
+	</class>
+
+
+
+</hibernate-mapping>

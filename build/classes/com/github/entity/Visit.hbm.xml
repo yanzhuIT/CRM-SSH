@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.github.entity.Visit" table="t_visit">
+		<id name="vid" column="vid">
+			<generator class="native"></generator>
+		</id>
+
+		<property name="vaddress" column="vaddress"></property>
+		<property name="vcontent" column="vcontent"></property>
+		
+		
+		<!-- related to one user -->
+		<many-to-one name="user" class="com.github.entity.User" column="uvid"></many-to-one>
+		
+		<!-- related to one customer -->
+		<many-to-one name="customer" class="com.github.entity.Customer" column="cvid"></many-to-one>
+
+		
+		
+	</class>
+	
+	
+
+</hibernate-mapping>
